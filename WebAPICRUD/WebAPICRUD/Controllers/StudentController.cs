@@ -25,7 +25,7 @@ namespace WebAPICRUD.Controllers
         [Route("api/student/{id}")]
         public HttpResponseMessage Get(int id)
         {
-            var student = students.FirstOrDefault(s => s.StudentID == id);
+            var student = db.Students.FirstOrDefault(s => s.StudentID == id);
             if (student == null)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Student not found");
