@@ -48,36 +48,40 @@ namespace WebAPICRUD.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, s);
         }
 
+        // PUT api/student/update/5 update student by StudentID
         [HttpPut]
         [Route("api/student/update/{id}")]
         public HttpResponseMessage Update(int id, Student s)
         {
-            if (s == null || s.StudentID != id)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data");
-            }
+            //if (s == null || s.StudentID != id)
+            //{
+            //    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data");
+            //}
 
-            var student = students.FirstOrDefault(st => st.StudentID == id);
+            var student = db.Students.FirstOrDefault(st => st.StudentID == id);
             if (student == null)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Student not found");
             }
 
-            student.StudentName = s.StudentName;
+            student.StudentName = "UpdatedName";        // this name will be updated
+            db.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.OK, student);
         }
 
+        // DELETE api/student/delete/5 delete student by StudentID
         [HttpDelete]
         [Route("api/student/delete/{id}")]
         public HttpResponseMessage Delete(int id)
         {
-            var student = students.FirstOrDefault(s => s.StudentID == id);
+            var student = db.Students.FirstOrDefault(s => s.StudentID == id);
             if (student == null)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Student not found");
             }
 
-            students.Remove(student);
+            db.Students.Remove(student);
+            db.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.OK, "Student deleted");
         }
     }
