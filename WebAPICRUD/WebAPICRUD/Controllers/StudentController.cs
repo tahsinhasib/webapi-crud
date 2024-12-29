@@ -14,13 +14,16 @@ namespace WebAPICRUD.Controllers
 
         private static List<Student> students = new List<Student>();
 
+        // GET api/student/all get all students from the list
         [HttpGet]
         [Route("api/student/all")]
         public HttpResponseMessage GetAll()
         {
+            var students = db.Students.ToList();
             return Request.CreateResponse(HttpStatusCode.OK, students);
         }
 
+        // GET api/student/5 search by StudentID
         [HttpGet]
         [Route("api/student/{id}")]
         public HttpResponseMessage Get(int id)
@@ -33,6 +36,7 @@ namespace WebAPICRUD.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, student);
         }
 
+        // POST api/student/create create a new student
         [HttpPost]
         [Route("api/student/create")]
         public HttpResponseMessage Create(Student s)
